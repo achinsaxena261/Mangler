@@ -1,0 +1,58 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>      
+      <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-android-contacts" menu-toggle="right">
+        </button>
+      </ion-nav-buttons>      
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+<ion-side-menu side="right">
+  <ion-header-bar class="bar-stable">
+    <h4><span style="color:#fff;">Contacts</span></h4>    
+  </ion-header-bar>
+    <ion-content>
+    <div class="list" ng-model="contacts" show-reorder="true">
+      <ion-item menu-close>
+        <span class="menu-item" ng-click="TrackMe({id:0,contact:123456789})">Test Contact</span>
+        <button class="btn sms" ng-click="goChat({id:0,contact:123456789})">SMS</button>
+      </ion-item>
+      <ion-item menu-close ng-repeat="x in emgContacts">
+        <span class="menu-item" ng-click="TrackMe({id:x.Id,contact:x.ContactNumber})">{{x.ContactName}}</span>
+        <button class="btn sms" ng-click="sms(x)">SMS</button>
+      </ion-item>
+    </div>
+  </ion-content>
+</ion-side-menu>
+
+  <ion-side-menu side="left">
+    <ion-header-bar class="bar-stable" style="height:40%;background-size: cover;background:url('img/menu.jpg')">
+      <div id="menu-avatar" class="avatar"></div>
+    </ion-header-bar>
+    <ion-content style="margin-top:35%;z-index:15;">
+      <div class="list" ng-model="items" show-reorder="true">
+        <ion-item menu-close ng-click="RoadMap()">
+          <i class="fa fa-map-o fa-lg" aria-hidden="true" style="margin-right:19%;"></i><span class="menu-item">Roadmap</span>
+        </ion-item>
+        <ion-item menu-close ng-click="Satellite()">
+          <i class="fa fa-globe fa-lg" aria-hidden="true" style="margin-right:21%;"></i></i><span class="menu-item">Satellite</span>
+        </ion-item>
+        <ion-item menu-close ng-click="Hybrid()">
+          <i class="fa fa-joomla fa-lg" aria-hidden="true" style="margin-right:21%;"></i></i><span class="menu-item">Hybrid</span>
+        </ion-item>
+        <ion-item menu-close ng-click="Terrain()">
+          <i class="fa fa-map fa-lg" aria-hidden="true" style="margin-right:20%;"></i><span class="menu-item">Terrain</span>
+        </ion-item>   
+      </div>
+      <div class="social-login" ng-click="logout()">Logout</div>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

@@ -1,0 +1,29 @@
+<ion-view view-title="Directions">
+  <ion-content scroll="true">
+  	<div class="search-result">
+  		<i class="fa fa-lg" ng-class="start=='Your Location'? 'fa-dot-circle-o' : 'fa-circle-o'" aria-hidden="true"></i>
+  		<input type="text" class="start-point" ng-model="start" placeholder="Choose starting point" ng-click="findStart()">
+  		<i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
+  		<input type="text" class="end-point" ng-model="end" placeholder="Choose destination" ng-click="findEnd()">
+  		<div class="map-tabs">  		
+		<button class="menu-tab" ng-class="selected1?'menu-tab-selected' : ''" ng-click="selectDrive()"><i class="fa fa-car fa-lg" aria-hidden="true"></i></button>
+		<button class="menu-tab" ng-class="selected2?'menu-tab-selected' : ''" ng-click="selectTransit()"><i class="fa fa-train fa-lg" aria-hidden="true"></i></button>
+		<button class="menu-tab" ng-class="selected3?'menu-tab-selected' : ''" ng-click="selectWalk()"><i class="fa fa-male fa-lg" aria-hidden="true"></i></button>
+		<button class="menu-tab" ng-class="selected4?'menu-tab-selected' : ''" ng-click="selectCycling()"><i class="fa fa-bicycle fa-lg" aria-hidden="true"></i></button>		
+  		</div>	
+  	</div> 	
+	<div class="stop-navigation" ng-click="stopDir()">
+		<span>Stop directions</span>
+	</div>
+	<div id="panel"></div>
+  	<div class="popup">
+	  	<div id="pac-container">
+	    	<input id="inputbox" class="controls" type="text" ng-model="searchLoc" placeholder="Search" autocomplete="on" ng-change="disableTap()" data-tap-disabled="true">
+    	</div>
+
+    	<div class="choose-my-location" ng-click="getMyLocation()"><img src='img/favicon1.png' style="height:30px;width:30px;"></img>
+    	<span>Your Location</span>
+    	</div>
+  	</div>
+  </ion-content>
+</ion-view>

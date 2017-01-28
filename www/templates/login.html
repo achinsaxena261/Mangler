@@ -1,0 +1,20 @@
+<ion-view view-title="Login" name="login-view">
+  <ion-content class="padding home-background" scroll="false" >
+    <div class="logo-bg">
+  	 <img src="img/logo-grey.png" style="height:100%;width:100%;">
+    </div>
+      <div class="list list-inset">
+          <label class="item item-input inputs_login">
+              <input type="text" placeholder="Username" ng-model="uname">
+          </label>
+          <br />
+          <label class="item item-input inputs_login">
+              <input type="password" placeholder="Password" ng-model="pwd">
+          </label>
+      </div>
+      <br />
+      <button class="button button-block button-calm" ng-click="login(uname,pwd)" style="opacity: 0.9;background-color: #222">Login</button>
+        <span style="color:#fff;margin-left:25vh;font:inherit"><b>OR</b></span>
+      <button class="button button-block button-calm" style="opacity: 0.9;background-color: #444">Register Now</button>
+  </ion-content>
+</ion-view>
