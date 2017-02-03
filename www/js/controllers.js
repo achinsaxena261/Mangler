@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .factory('urlService',function(){
-  var url = 'http://172.17.159.46:8080/api/';
+  var url = 'http://localhost:3000/api/';
   return{
     getUrl : function(){
       return url;
@@ -36,6 +36,7 @@ angular.module('starter.controllers', [])
         url: headUrl+ 'UserApi/Login?userName=' + uname +'&password='+pwd
       }
 
+      $rootScope.UserName = uname;
       $http(req).success(function(data){
         if(data == null){
          window.alert('Invalid username or password');
@@ -226,7 +227,8 @@ angular.module('starter.controllers', [])
 
       $scope.TrackMe =  function(user)
       {
-        $state.go('app.dtl',{obj:user.id});
+        $state.go('app.dtl',{obj:user});
+        //$state.go('rooms',{obj:user});
       }
 
       $scope.sms = function(user)
@@ -638,9 +640,9 @@ angular.module('starter.controllers', [])
         };
           $scope.map = new google.maps.Map(document.getElementById("map"), defaultOptions);
 
-          for(var i=0;i<$scope.data.length;i++){
-            $scope.heatmap = googleHeatMapService.createHeatMapLayer($scope.map,$scope.data[i].Address,$scope.data[i].NoOfCrimes);
-          }
+        for(var i=0;i<$scope.data.length;i++){
+          $scope.heatmap = googleHeatMapService.createHeatMapLayer($scope.map,$scope.data[i].Address,$scope.data[i].NoOfCrimes);
+        }
 
         $rootScope.$on( "$ionicView.enter", function( scopes, states ) {
            google.maps.event.trigger( $scope.map, 'resize' );
@@ -1029,20 +1031,36 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('DetailCtrl',function($scope,$http,$state,$compile,$ionicSideMenuDelegate){
-    console.log($state.params.obj);
-    $scope.$on('$ionicView.enter', function(){
-      $ionicSideMenuDelegate.canDragContent(false);
-    });
+.controller('DetailCtrl',function($scope,$http,$state,$rootScope,$ionicSideMenuDelegate,localStorageService, SocketService){
+
+  var me = this;
+  me.current_room = localStorageService.get('room');
+  localStorageService.set('username', $rootScope.UserName);
+
+  $scope.$on('$ionicView.enter', function(){
+    $ionicSideMenuDelegate.canDragContent(false);
+  });
   $scope.$on('$ionicView.leave', function(){
       $ionicSideMenuDelegate.canDragContent(true);
-    });
-  
-  $scope.closeChat = function()
-  {
-    angular.element(document.getElementsByClassName('window-details')).css('visibility','hidden');
-  }
-  angular.element(document.getElementsByClassName('window-details')).css('visibility','visible');
+  });
+
+
+  $scope.enterRoom = function(room_name){
+
+    me.current_room = room_name;
+    localStorageService.set('room', room_name);
+    
+    var room = {
+      'room_name': room_name
+    };
+
+    SocketService.emit('join:room', room);
+
+    $state.go('room');
+  };
+
+  $scope.enterRoom('Chat with '+$state.params.obj.name);
+
 
   $http.get('data/session.json').success(function(promise){
   $scope.lat = promise.lat;
@@ -1067,18 +1085,5 @@ angular.module('starter.controllers', [])
     angular.element(document.getElementsByClassName('window-details')).css('visibility','hidden');
   });
 
-  var compileAndAdd = function(message)
-  {
-    var time = new Date();
-    $('.model-detail').animate({scrollTop:$(document).height()}, 'fast');
-    angular.element('.model-right').append($compile('<br/><div class=\"message-me\"><span class=\"text-msg\">'+message+'</span><br/><span class=\"time-text\" >'+time.getHours()+':'+time.getMinutes()+'</span></div><br/>')($scope))
-  }
-
-  $scope.send = function(message)
-  {
-    compileAndAdd(message);
-    angular.element('#msg').val('');
-    //document.getElementsByClassName("model-detail").insertAdjacentHTML('<div class=\"message-me\">'+message+'</div>');
-  }
 
 });

@@ -3907,7 +3907,7 @@ a.subdued {
     .bar.bar-clear .title {
       color: #fff; }
   .bar.item-input-inset .item-input-wrapper {
-    margin-top: -1px; }
+    margin-top: 3px; }
     .bar.item-input-inset .item-input-wrapper input {
       padding-left: 8px;
       width: 94%;

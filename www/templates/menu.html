@@ -22,11 +22,11 @@
     <ion-content>
     <div class="list" ng-model="contacts" show-reorder="true">
       <ion-item menu-close>
-        <span class="menu-item" ng-click="TrackMe({id:0,contact:123456789})">Test Contact</span>
-        <button class="btn sms" ng-click="goChat({id:0,contact:123456789})">SMS</button>
+        <span class="menu-item" ng-click="TrackMe({id:0,contact:123456789,name:'Test Contact'})">Test Contact</span>
+        <button class="btn sms" ng-click="goChat({id:0,contact:123456789,name:'Test Contact'})">SMS</button>
       </ion-item>
       <ion-item menu-close ng-repeat="x in emgContacts">
-        <span class="menu-item" ng-click="TrackMe({id:x.Id,contact:x.ContactNumber})">{{x.ContactName}}</span>
+        <span class="menu-item" ng-click="TrackMe({id:x.Id,contact:x.ContactNumber,name:x.ContactName})">{{x.ContactName}}</span>
         <button class="btn sms" ng-click="sms(x)">SMS</button>
       </ion-item>
     </div>
