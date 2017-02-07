@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .factory('urlService',function(){
-  var url = 'http://localhost:3000/api/';
+  var url = 'http://172.17.159.46:8080/api/';
   return{
     getUrl : function(){
       return url;
@@ -30,6 +30,7 @@ angular.module('starter.controllers', [])
     
     $scope.login = function(uname,pwd)
     {
+      //$state.go('app.maps');
       var headUrl = urlService.getUrl();
         var req = {
         method: 'POST',
@@ -228,7 +229,6 @@ angular.module('starter.controllers', [])
       $scope.TrackMe =  function(user)
       {
         $state.go('app.dtl',{obj:user});
-        //$state.go('rooms',{obj:user});
       }
 
       $scope.sms = function(user)
@@ -1044,8 +1044,9 @@ angular.module('starter.controllers', [])
       $ionicSideMenuDelegate.canDragContent(true);
   });
 
+  $scope.enterRoom = function(){
 
-  $scope.enterRoom = function(room_name){
+    room_name = 'Chat with '+$state.params.obj.name;
 
     me.current_room = room_name;
     localStorageService.set('room', room_name);
@@ -1056,10 +1057,10 @@ angular.module('starter.controllers', [])
 
     SocketService.emit('join:room', room);
 
-    $state.go('room');
+    $state.go('app.room');
   };
 
-  $scope.enterRoom('Chat with '+$state.params.obj.name);
+  //$scope.enterRoom('Chat with '+$state.params.obj.name);
 
 
   $http.get('data/session.json').success(function(promise){
@@ -1086,4 +1087,64 @@ angular.module('starter.controllers', [])
   });
 
 
+})
+
+.controller('RoomController', function ($scope, $state, localStorageService, SocketService, moment, $ionicScrollDelegate){
+
+    var me = this;
+
+    me.messages = [];
+
+    $scope.humanize = function(timestamp){
+      return moment(timestamp).fromNow();
+    };
+
+    me.current_room = localStorageService.get('room');
+    
+    var current_user = localStorageService.get('username');
+
+    $scope.isNotCurrentUser = function(user){
+      
+      if(current_user != user){
+        return 'not-current-user';
+      }
+      return 'current-user';
+    };
+
+
+    $scope.sendTextMessage = function(){
+
+      var msg = {
+        'room': me.current_room,
+        'user': current_user,
+        'text': me.message,
+        'time': moment()
+      };
+
+      
+      me.messages.push(msg);
+      $ionicScrollDelegate.scrollBottom();
+
+      me.message = '';
+      
+      SocketService.emit('send:message', msg);
+    };
+
+
+    $scope.leaveRoom = function(){
+  
+      var msg = {
+        'user': current_user,
+        'room': me.current_room,
+        'time': moment()
+      };
+
+      SocketService.emit('leave:room', msg);
+      $state.go('app.dtl');
+    };
+
+    SocketService.on('message', function(msg){
+      me.messages.push(msg);
+      $ionicScrollDelegate.scrollBottom();
+    });
 });

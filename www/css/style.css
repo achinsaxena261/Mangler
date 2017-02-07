@@ -97,6 +97,17 @@
         cursor: pointer;
       }
 
+      .chat-icon
+      {
+        background: url('../img/chat.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        height: 25px;
+        width: 26px;
+        cursor: pointer;
+      }
+
       .logo-bg
       {
         margin-left: 18vh;
@@ -130,6 +141,20 @@
         cursor: pointer;
       }
 
+      .chat-start{
+        background-color: #222;
+        border: medium;
+        position: fixed;
+        padding-top: 17px;
+        padding-left: 17px;
+        z-index: 5;
+        height: 60px;
+        width: 60px;
+        border-radius: 40px;
+        top: 87%;
+        left: 3%;
+      }
+
       #floating-panel {
         background-color: #fff;
         border: medium;
@@ -144,6 +169,7 @@
         border-radius: 40px;
         margin-bottom: 18%;
       }
+
       #floating-panel2 {
         background-color: #222;
         border: medium;
@@ -518,11 +544,13 @@
       .current-user {
         float: left;
         clear: both;
+        max-width: 50%;
       }
 
       .not-current-user {
         float: right;
         clear: both;
+        max-width: 50%;
       }
 
       .current-user .details {

@@ -1,9 +1,4 @@
-<ion-view title="{{ room_ctrl.current_room }}" ng-controller="RoomController as room_ctrl">
- 	<header class="bar bar-header bar-positive">
- 		<h1 class="title">{{ room_ctrl.current_room }}</h1>
- 		<button class="button button-assertive" ng-click="leaveRoom()">Leave</button>
- 	</header>
- 	
+<ion-view title="{{ room_ctrl.current_room }}" ng-controller="RoomController as room_ctrl"> 	
   <ion-content class="has-header padding">
 	
 	<div class="list" id="messages" ng-if="room_ctrl.messages.length > 0">

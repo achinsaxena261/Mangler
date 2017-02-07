@@ -29,15 +29,7 @@ angular.module('starter', ['ionic', 'starter.controllers','LocalStorageModule', 
       templateUrl: 'templates/login.html',
       controller: 'loginCtrl'
   })
-  .state('rooms', {
-    url: '/rooms',
-    templateUrl: 'templates/rooms.html'
-  })
 
-  .state('room', {
-    url: '/room',
-    templateUrl: 'templates/room.html'
-  })
     .state('app', {
     url: '/app',
     abstract: true,
@@ -77,6 +69,16 @@ angular.module('starter', ['ionic', 'starter.controllers','LocalStorageModule', 
         }
       }
     })
+
+  .state('app.room', {
+    url: '/room',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/room.html',
+        controller: 'RoomController'
+      }
+    }
+  })
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 });
